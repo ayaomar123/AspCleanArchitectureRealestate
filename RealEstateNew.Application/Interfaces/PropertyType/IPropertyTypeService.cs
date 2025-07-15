@@ -1,7 +1,7 @@
 ﻿
 using RealEstateNew.Application.DTOs;
 
-namespace RealEstateNew.Application.Interfaces
+namespace RealEstateNew.Application.Interfaces.PropertyType
 {
     public interface ICategoryService
     {

@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateNew.Application.DTOs;
-using RealEstateNew.Application.Interfaces.Category;
+using RealEstateNew.Application.Interfaces.City;
 
 namespace RealEstateNew.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoreisController : ControllerBase
+    public class CitiesController : ControllerBase
     {
-        private readonly ICategoryService _service;
+        private readonly ICityService _service;
 
-        public CategoreisController(ICategoryService service)
+        public CitiesController(ICityService service)
         {
             _service = service;
         }

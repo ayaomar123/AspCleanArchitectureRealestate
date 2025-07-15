@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using RealEstateNew.Application.Interfaces;
+using RealEstateNew.Application.Interfaces.Category;
+using RealEstateNew.Application.Interfaces.City;
+using RealEstateNew.Application.Interfaces.District;
+using RealEstateNew.Application.Interfaces.Item;
+using RealEstateNew.Application.Interfaces.Item.Validation;
 using RealEstateNew.Application.Services;
 using RealEstateNew.Infrastructure.Data;
 using RealEstateNew.Infrastructure.Repositories;
@@ -15,6 +19,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+
+//Category
 builder.Services.AddScoped<ICategoryRepository>(provider =>
 {
     var context = provider.GetRequiredService<AppDbContext>();
@@ -22,8 +28,41 @@ builder.Services.AddScoped<ICategoryRepository>(provider =>
     var env = provider.GetRequiredService<IWebHostEnvironment>();
     return new CategoryRepository(context, mapper, env.WebRootPath);
 });
-
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+//City
+builder.Services.AddScoped<ICityRepository>(provider =>
+{
+    var context = provider.GetRequiredService<AppDbContext>();
+    var mapper = provider.GetRequiredService<IMapper>();
+    var env = provider.GetRequiredService<IWebHostEnvironment>();
+    return new CityRepository(context, mapper, env.WebRootPath);
+});
+builder.Services.AddScoped<ICityService, CityService>();
+
+
+//District
+builder.Services.AddScoped<IDistrictRepository>(provider =>
+{
+    var context = provider.GetRequiredService<AppDbContext>();
+    var mapper = provider.GetRequiredService<IMapper>();
+    var env = provider.GetRequiredService<IWebHostEnvironment>();
+    return new DistrictRepository(context, mapper, env.WebRootPath);
+});
+builder.Services.AddScoped<IDistrictService, DistrictService>();
+
+//Item
+builder.Services.AddScoped<IItemRepository>(provider =>
+{
+    var context = provider.GetRequiredService<AppDbContext>();
+    var mapper = provider.GetRequiredService<IMapper>();
+    var env = provider.GetRequiredService<IWebHostEnvironment>();
+    return new ItemRepository(context, mapper, env.WebRootPath);
+});
+builder.Services.AddScoped<IItemService, ItemService>();
+builder.Services.AddScoped<IItemValidationService, ItemValidationService>();
+
+
 
 builder.Services.AddControllers();
 

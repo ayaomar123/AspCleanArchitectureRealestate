@@ -1,35 +1,35 @@
 ﻿
 
 using RealEstateNew.Application.DTOs;
-using RealEstateNew.Application.Interfaces.Category;
+using RealEstateNew.Application.Interfaces.District;
 
 namespace RealEstateNew.Application.Services
 {
-    public class CategoryService : ICategoryService
+    public class DistrictService : IDistrictService
     {
-        private readonly ICategoryRepository _repository;
+        private readonly IDistrictRepository _repository;
 
-        public CategoryService(ICategoryRepository repository)
+        public DistrictService(IDistrictRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<List<BaseResponseDto>> GetAllAsync()
+        public async Task<List<DistrictResponseDto>> GetAllAsync()
         {
             return await _repository.GetAllAsync();
         }
 
-        public async Task<BaseResponseDto> CreateAsync(BaseRequestDto dto)
+        public async Task<DistrictResponseDto> CreateAsync(DistrictRequestDto dto)
         {
             return await _repository.CreateAsync(dto);
         }
 
-        public async Task<BaseResponseDto?> UpdateAsync(int id, BaseRequestDto dto)
+        public async Task<DistrictResponseDto?> UpdateAsync(int id, DistrictRequestDto dto)
         {
             return await _repository.UpdateAsync(id, dto);
         }
 
-        public async Task<BaseResponseDto?> ToggleStatusAsync(int id)
+        public async Task<DistrictResponseDto?> ToggleStatusAsync(int id)
         {
             return await _repository.ToggleStatusAsync(id);
         }

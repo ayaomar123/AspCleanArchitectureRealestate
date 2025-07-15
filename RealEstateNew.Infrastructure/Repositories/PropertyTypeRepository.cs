@@ -2,19 +2,19 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using RealEstateNew.Application.DTOs;
-using RealEstateNew.Application.Interfaces.Category;
+using RealEstateNew.Application.Interfaces.PropertyType;
 using RealEstateNew.Domain.Entities;
 using RealEstateNew.Infrastructure.Data;
 
 namespace RealEstateNew.Infrastructure.Repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    public class PropertyTypeRepository : IPropertyTypeRepository
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
         private readonly string _webRootPath;
 
-        public CategoryRepository(AppDbContext context, IMapper mapper, string webRootPath)
+        public PropertyTypeRepository(AppDbContext context, IMapper mapper, string webRootPath)
         {
             _context = context;
             _mapper = mapper;
@@ -23,18 +23,18 @@ namespace RealEstateNew.Infrastructure.Repositories
 
         public async Task<List<BaseResponseDto>> GetAllAsync()
         {
-            var entities = await _context.Categories.ToListAsync();
+            var entities = await _context.PropertyTypes.ToListAsync();
             return _mapper.Map<List<BaseResponseDto>>(entities);
         }
 
         public async Task<BaseResponseDto> CreateAsync(BaseRequestDto dto)
         {
-            var entity = _mapper.Map<Category>(dto);
+            var entity = _mapper.Map<PropertyType>(dto);
 
             if (dto.Image != null)
                 entity.Image = await SaveImageAsync(dto.Image);
 
-            _context.Categories.Add(entity);
+            _context.PropertyTypes.Add(entity);
             await _context.SaveChangesAsync();
 
             return _mapper.Map<BaseResponseDto>(entity);
@@ -42,7 +42,7 @@ namespace RealEstateNew.Infrastructure.Repositories
 
         public async Task<BaseResponseDto?> UpdateAsync(int id, BaseRequestDto dto)
         {
-            var entity = await _context.Categories.FindAsync(id);
+            var entity = await _context.PropertyTypes.FindAsync(id);
             if (entity == null)
                 return null;
 
@@ -58,7 +58,7 @@ namespace RealEstateNew.Infrastructure.Repositories
 
         public async Task<BaseResponseDto?> ToggleStatusAsync(int id)
         {
-            var entity = await _context.Categories.FindAsync(id);
+            var entity = await _context.PropertyTypes.FindAsync(id);
             if (entity == null)
                 return null;
 
@@ -70,11 +70,11 @@ namespace RealEstateNew.Infrastructure.Repositories
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var entity = await _context.Categories.FindAsync(id);
+            var entity = await _context.PropertyTypes.FindAsync(id);
             if (entity == null)
                 return false;
 
-            _context.Categories.Remove(entity);
+            _context.PropertyTypes.Remove(entity);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -84,7 +84,7 @@ namespace RealEstateNew.Infrastructure.Repositories
             if (file == null || file.Length == 0)
                 throw new ArgumentException("File is required.");
 
-            var uploadsPath = Path.Combine(_webRootPath, "images", "categories");
+            var uploadsPath = Path.Combine(_webRootPath, "images", "types");
 
             if (!Directory.Exists(uploadsPath))
                 Directory.CreateDirectory(uploadsPath);
@@ -95,7 +95,7 @@ namespace RealEstateNew.Infrastructure.Repositories
             using var stream = new FileStream(fullPath, FileMode.Create);
             await file.CopyToAsync(stream);
 
-            return Path.Combine("images", "categories", fileName).Replace("\\", "/");
+            return Path.Combine("images", "types", fileName).Replace("\\", "/");
         }
     }
 }

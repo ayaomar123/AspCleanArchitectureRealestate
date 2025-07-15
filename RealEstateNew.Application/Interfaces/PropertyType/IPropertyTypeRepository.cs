@@ -2,9 +2,9 @@
 
 using RealEstateNew.Application.DTOs;
 
-namespace RealEstateNew.Application.Interfaces
+namespace RealEstateNew.Application.Interfaces.PropertyType
 {
-    public interface ICategoryRepository
+    public interface IPropertyTypeRepository
     {
         Task<List<BaseResponseDto>> GetAllAsync();
         Task<BaseResponseDto> CreateAsync(BaseRequestDto dto);

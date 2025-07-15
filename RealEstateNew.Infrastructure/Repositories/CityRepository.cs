@@ -2,19 +2,19 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using RealEstateNew.Application.DTOs;
-using RealEstateNew.Application.Interfaces.Category;
+using RealEstateNew.Application.Interfaces.City;
 using RealEstateNew.Domain.Entities;
 using RealEstateNew.Infrastructure.Data;
 
 namespace RealEstateNew.Infrastructure.Repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CityRepository : ICityRepository
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
         private readonly string _webRootPath;
 
-        public CategoryRepository(AppDbContext context, IMapper mapper, string webRootPath)
+        public CityRepository(AppDbContext context, IMapper mapper, string webRootPath)
         {
             _context = context;
             _mapper = mapper;
@@ -23,18 +23,18 @@ namespace RealEstateNew.Infrastructure.Repositories
 
         public async Task<List<BaseResponseDto>> GetAllAsync()
         {
-            var entities = await _context.Categories.ToListAsync();
+            var entities = await _context.Cities.ToListAsync();
             return _mapper.Map<List<BaseResponseDto>>(entities);
         }
 
         public async Task<BaseResponseDto> CreateAsync(BaseRequestDto dto)
         {
-            var entity = _mapper.Map<Category>(dto);
+            var entity = _mapper.Map<City>(dto);
 
             if (dto.Image != null)
                 entity.Image = await SaveImageAsync(dto.Image);
 
-            _context.Categories.Add(entity);
+            _context.Cities.Add(entity);
             await _context.SaveChangesAsync();
 
             return _mapper.Map<BaseResponseDto>(entity);
@@ -42,7 +42,7 @@ namespace RealEstateNew.Infrastructure.Repositories
 
         public async Task<BaseResponseDto?> UpdateAsync(int id, BaseRequestDto dto)
         {
-            var entity = await _context.Categories.FindAsync(id);
+            var entity = await _context.Cities.FindAsync(id);
             if (entity == null)
                 return null;
 
@@ -58,7 +58,7 @@ namespace RealEstateNew.Infrastructure.Repositories
 
         public async Task<BaseResponseDto?> ToggleStatusAsync(int id)
         {
-            var entity = await _context.Categories.FindAsync(id);
+            var entity = await _context.Cities.FindAsync(id);
             if (entity == null)
                 return null;
 
@@ -70,11 +70,11 @@ namespace RealEstateNew.Infrastructure.Repositories
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var entity = await _context.Categories.FindAsync(id);
+            var entity = await _context.Cities.FindAsync(id);
             if (entity == null)
                 return false;
 
-            _context.Categories.Remove(entity);
+            _context.Cities.Remove(entity);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -95,7 +95,7 @@ namespace RealEstateNew.Infrastructure.Repositories
             using var stream = new FileStream(fullPath, FileMode.Create);
             await file.CopyToAsync(stream);
 
-            return Path.Combine("images", "categories", fileName).Replace("\\", "/");
+            return Path.Combine("images", "cities", fileName).Replace("\\", "/");
         }
     }
 }

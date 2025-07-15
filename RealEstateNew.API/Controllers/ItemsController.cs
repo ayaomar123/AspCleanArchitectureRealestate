@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateNew.Application.DTOs;
-using RealEstateNew.Application.Interfaces.Category;
+using RealEstateNew.Application.Interfaces.Item;
 
 namespace RealEstateNew.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoreisController : ControllerBase
+    public class ItemsController : ControllerBase
     {
-        private readonly ICategoryService _service;
+        private readonly IItemService _service;
 
-        public CategoreisController(ICategoryService service)
+        public ItemsController(IItemService service)
         {
             _service = service;
         }
@@ -24,7 +24,7 @@ namespace RealEstateNew.API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] BaseRequestDto dto)
+        public async Task<IActionResult> Create([FromForm] ItemRequestDto dto)
         {
             await _service.CreateAsync(dto);
             return Ok();
@@ -42,7 +42,7 @@ namespace RealEstateNew.API.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromForm] BaseRequestDto dto)
+        public async Task<IActionResult> Update(int id, [FromForm] ItemRequestDto dto)
         {
             var item = await _service.UpdateAsync(id, dto);
 

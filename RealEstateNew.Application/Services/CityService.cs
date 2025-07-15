@@ -1,15 +1,15 @@
 ﻿
 
 using RealEstateNew.Application.DTOs;
-using RealEstateNew.Application.Interfaces.Category;
+using RealEstateNew.Application.Interfaces.City;
 
 namespace RealEstateNew.Application.Services
 {
-    public class CategoryService : ICategoryService
+    public class CityService : ICityService
     {
-        private readonly ICategoryRepository _repository;
+        private readonly ICityRepository _repository;
 
-        public CategoryService(ICategoryRepository repository)
+        public CityService(ICityRepository repository)
         {
             _repository = repository;
         }
