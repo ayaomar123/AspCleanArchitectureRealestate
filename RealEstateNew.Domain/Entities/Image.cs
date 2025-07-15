@@ -6,7 +6,8 @@
 
         public int ItemId { get; set; }
         public Item Item { get; set; } = null!;
-        public string? ImageName { get; set; }
         public string? ImageUrl { get; set; }
+
+        public bool? Status { get; set; } = true;
     }
 }

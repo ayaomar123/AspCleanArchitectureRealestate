@@ -4,6 +4,7 @@ using RealEstateNew.Application.Interfaces.Category;
 using RealEstateNew.Application.Interfaces.City;
 using RealEstateNew.Application.Interfaces.District;
 using RealEstateNew.Application.Interfaces.Item;
+using RealEstateNew.Application.Interfaces.Item.Images;
 using RealEstateNew.Application.Interfaces.Item.Validation;
 using RealEstateNew.Application.Services;
 using RealEstateNew.Infrastructure.Data;
@@ -63,6 +64,15 @@ builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<IItemValidationService, ItemValidationService>();
 
 
+//Images
+builder.Services.AddScoped<IItemImageRepository>(provider =>
+{
+    var context = provider.GetRequiredService<AppDbContext>();
+    var mapper = provider.GetRequiredService<IMapper>();
+    var env = provider.GetRequiredService<IWebHostEnvironment>();
+    return new ItemImageRepository(context, mapper, env.WebRootPath);
+});
+builder.Services.AddScoped<IItemImageService, ItemImageService>();
 
 builder.Services.AddControllers();
 

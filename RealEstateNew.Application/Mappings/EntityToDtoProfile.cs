@@ -39,6 +39,13 @@ namespace RealEstateNew.Application.Mappings
 
             CreateMap<Item, ItemResponseDto>();
 
+
+            //ItemImages
+            CreateMap<ImageRequestDto, Image>()
+                .ForMember(dest => dest.ImageUrl, opt => opt.Ignore());
+
+            CreateMap<Image, ImageResponseDto>();
+
         }
     }
 }
