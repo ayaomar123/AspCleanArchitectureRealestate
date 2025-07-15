@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RealEstateNew.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using RealEstateNew.Infrastructure.Data;
 namespace RealEstateNew.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250715095730_AddBookings")]
+    partial class AddBookings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,45 +24,6 @@ namespace RealEstateNew.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("RealEstateNew.Domain.Entities.Booking", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("BookingDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Mobile")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("Bookings");
-                });
 
             modelBuilder.Entity("RealEstateNew.Domain.Entities.Category", b =>
                 {
@@ -278,17 +242,6 @@ namespace RealEstateNew.Infrastructure.Migrations
                     b.ToTable("PropertyTypes");
                 });
 
-            modelBuilder.Entity("RealEstateNew.Domain.Entities.Booking", b =>
-                {
-                    b.HasOne("RealEstateNew.Domain.Entities.Item", "Item")
-                        .WithMany("Bookings")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Item");
-                });
-
             modelBuilder.Entity("RealEstateNew.Domain.Entities.District", b =>
                 {
                     b.HasOne("RealEstateNew.Domain.Entities.City", "City")
@@ -348,8 +301,6 @@ namespace RealEstateNew.Infrastructure.Migrations
 
             modelBuilder.Entity("RealEstateNew.Domain.Entities.Item", b =>
                 {
-                    b.Navigation("Bookings");
-
                     b.Navigation("Images");
                 });
 #pragma warning restore 612, 618

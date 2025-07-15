@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using RealEstateNew.Application.Interfaces.Booking;
 using RealEstateNew.Application.Interfaces.Category;
 using RealEstateNew.Application.Interfaces.City;
 using RealEstateNew.Application.Interfaces.District;
@@ -73,6 +74,16 @@ builder.Services.AddScoped<IItemImageRepository>(provider =>
     return new ItemImageRepository(context, mapper, env.WebRootPath);
 });
 builder.Services.AddScoped<IItemImageService, ItemImageService>();
+
+
+//Bookings
+builder.Services.AddScoped<IBookingRepository>(provider =>
+{
+    var context = provider.GetRequiredService<AppDbContext>();
+    var mapper = provider.GetRequiredService<IMapper>();
+    return new BookingRepository(context, mapper);
+});
+builder.Services.AddScoped<IBookingService, BookingService>();
 
 builder.Services.AddControllers();
 

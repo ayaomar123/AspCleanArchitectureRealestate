@@ -2,6 +2,8 @@
 
 using AutoMapper;
 using RealEstateNew.Application.DTOs;
+using RealEstateNew.Application.DTOs.Bookings;
+using RealEstateNew.Application.DTOs.Items;
 using RealEstateNew.Domain.Entities;
 
 namespace RealEstateNew.Application.Mappings
@@ -37,7 +39,11 @@ namespace RealEstateNew.Application.Mappings
             CreateMap<ItemRequestDto, Item>()
                 .ForMember(dest => dest.Image, opt => opt.Ignore());
 
-            CreateMap<Item, ItemResponseDto>();
+            CreateMap<Item, ItemResponseDto>()
+                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images))
+                .ForMember(dest => dest.Bookings, opt => opt.MapFrom(src => src.Bookings))
+                ;
+            CreateMap<Booking, BookingDto>();
 
 
             //ItemImages
@@ -45,6 +51,11 @@ namespace RealEstateNew.Application.Mappings
                 .ForMember(dest => dest.ImageUrl, opt => opt.Ignore());
 
             CreateMap<Image, ImageResponseDto>();
+
+            //Bookings
+            CreateMap<BookingRequestDto, Booking>();
+
+            CreateMap<Booking, BookingResponseDto>();
 
         }
     }

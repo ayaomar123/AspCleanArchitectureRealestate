@@ -1,5 +1,6 @@
 ﻿
 
+using RealEstateNew.Application.DTOs.Items;
 using RealEstateNew.Domain.Entities;
 
 namespace RealEstateNew.Application.DTOs
@@ -23,6 +24,7 @@ namespace RealEstateNew.Application.DTOs
         public string? HashedPassword { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        //public List<Image> Images { get; set; } = new();
+        public List<ImageResponseDto> Images { get; set; } = new();
+        public List<BookingDto> Bookings { get; set; } = new();
     }
 }

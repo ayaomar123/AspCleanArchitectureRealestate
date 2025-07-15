@@ -22,6 +22,13 @@ namespace RealEstateNew.API.Controllers
             return data == null ? NotFound() : Ok(data);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> ShowAsync(int id)
+        {
+            var data = await _service.ShowAsync(id);
+            return data == null ? NotFound() : Ok(data);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] ItemRequestDto dto)

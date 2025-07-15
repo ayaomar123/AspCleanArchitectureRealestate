@@ -24,5 +24,6 @@
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public List<Image> Images { get; set; } = new();
+        public List<Booking> Bookings { get; set; } = new();
     }
 }

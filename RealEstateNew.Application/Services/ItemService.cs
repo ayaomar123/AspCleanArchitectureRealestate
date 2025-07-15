@@ -22,6 +22,11 @@ namespace RealEstateNew.Application.Services
             return await _repository.GetAllAsync();
         }
 
+        public async Task<ItemResponseDto?> ShowAsync(int id)
+        {
+            return await _repository.ShowAsync(id);
+        }
+
         public async Task<ItemResponseDto> CreateAsync(ItemRequestDto dto)
         {
             await _validationService.ValidateItemRequestAsync(dto);

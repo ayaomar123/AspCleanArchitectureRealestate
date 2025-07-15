@@ -6,6 +6,6 @@ namespace RealEstateNew.Application.DTOs
 {
     public class ImageResponseDto 
     {
-        public string? Image { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }

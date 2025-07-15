@@ -17,6 +17,7 @@ namespace RealEstateNew.Infrastructure.Data
         public DbSet<District> Districts { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,7 +33,13 @@ namespace RealEstateNew.Infrastructure.Data
             .HasMany(i => i.Images)
             .WithOne(img => img.Item)
             .HasForeignKey(img => img.ItemId)
-            .OnDelete(DeleteBehavior.Cascade); // عند حذف العنصر، احذف الصور أيضًا
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Item>()
+            .HasMany(i => i.Bookings)
+            .WithOne(book => book.Item)
+            .HasForeignKey(book => book.ItemId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Item>()
                 .HasOne(i => i.City)

@@ -29,8 +29,27 @@ namespace RealEstateNew.Infrastructure.Repositories
                 .Include(d => d.City)
                 .Include(d => d.District)
                 .Include(d => d.PropertyType)
+                .Include(d => d.Images)
                 .ToListAsync();
             return _mapper.Map<List<ItemResponseDto>>(entities);
+        }
+
+        public async Task<ItemResponseDto?> ShowAsync(int id)
+        {
+            var entity = await _context
+                .Items
+                .Include(d => d.Category)
+                .Include(d => d.City)
+                .Include(d => d.District)
+                .Include(d => d.PropertyType)
+                .Include(d => d.Images)
+                .Include(d => d.Bookings)
+                .FirstOrDefaultAsync(i => i.Id == id);
+
+            if (entity == null)
+                return null;
+
+            return _mapper.Map<ItemResponseDto>(entity);
         }
 
         public async Task<ItemResponseDto> CreateAsync(ItemRequestDto dto)
