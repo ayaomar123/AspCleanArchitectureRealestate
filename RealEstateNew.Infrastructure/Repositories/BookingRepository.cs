@@ -7,16 +7,10 @@ using RealEstateNew.Infrastructure.Data;
 
 namespace RealEstateNew.Infrastructure.Repositories
 {
-    public class BookingRepository : IBookingRepository
+    public class BookingRepository(AppDbContext context, IMapper mapper) : IBookingRepository
     {
-        private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
-
-        public BookingRepository(AppDbContext context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
+        private readonly AppDbContext _context = context;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<List<BookingResponseDto>> GetAllAsync()
         {
