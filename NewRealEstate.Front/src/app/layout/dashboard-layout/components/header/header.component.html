@@ -1,0 +1,28 @@
+<!-- Header -->
+<header class="bg-white shadow-md border-b border-gray-200">
+    <div class="flex items-center justify-between px-4 py-3">
+        <!-- Mobile menu button -->
+        <button
+            class="lg:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            (click)="toggleMobileMenu()">
+            <i class="fas fa-bars text-lg"></i>
+        </button>
+        <h1 class="text-xl font-bold text-gray-800 flex-1 lg:flex-none lg:ml-4">Dashboard</h1>
+
+        <!-- User dropdown -->
+        <div class="relative" (mouseenter)="showDropdown = true" (mouseleave)="showDropdown = false">
+            <button
+                class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <img src="https://api.dicebear.com/6.x/initials/svg?seed=JD" alt="Avatar"
+                    class="w-10 h-10 rounded-full" />
+            </button>
+            <div class="absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
+                *ngIf="showDropdown">
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Perfil</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configuración</a>
+                <hr class="my-1 border-gray-200" />
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar sesión</a>
+            </div>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,44 @@
+<!-- Mobile menu overlay -->
+<div class="fixed inset-0 bg-opacity-50 z-40 lg:hidden" [class.hidden]="!mobileMenuOpen" (click)="toggleMobileMenu()">
+</div>
+
+<!-- Sidebar -->
+<aside
+    class="fixed lg:static inset-y-0 left-0 z-50 w-20 bg-white transform transition-transform duration-300 ease-in-out"
+    [class.-translate-x-full]="!mobileMenuOpen" [class.lg:translate-x-0]="true">
+    <div class="p-4 text-gray-800 text-center text-2xl font-bold ">
+        <img src="/favicon.ico" alt="">
+    </div>
+    <nav class="p-4">
+        <ul class="space-y-4">
+            <li>
+                <a href="#"
+                    class="tooltip flex items-center justify-center w-12 h-12 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                    data-tip="Inicio">
+                    <i class="fas fa-home text-lg"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#"
+                    class="tooltip flex items-center justify-center w-12 h-12 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                    data-tip="Usuarios">
+                    <i class="fas fa-user-friends text-lg"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#"
+                    class="tooltip flex items-center justify-center w-12 h-12 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                    data-tip="Ventas">
+                    <i class="fas fa-shopping-cart text-lg"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#"
+                    class="tooltip flex items-center justify-center w-12 h-12 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                    data-tip="Reportes">
+                    <i class="fas fa-chart-line text-lg"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>
