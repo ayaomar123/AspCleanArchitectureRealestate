@@ -1,0 +1,56 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="bg-white shadow-xl rounded-xl p-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-5">
+        <h2 class="text-2xl font-semibold text-green-400">Create Item</h2>
+    </div>
+
+    <!-- Image Upload -->
+    <div class="mb-4">
+        <label class="block mb-1 font-medium text-gray-700">Image</label>
+        <app-uploader (imageUploaded)="onImageSelected($event)"></app-uploader>
+        <p *ngIf="form.get('image')?.invalid && form.get('image')?.touched" class="text-red-500 text-sm mt-1">
+            Image is required.
+        </p>
+    </div>
+
+    <!-- Grid Fields -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Text and Select Inputs -->
+        <ng-container *ngFor="let field of fieldConfigs">
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                <ng-container [ngSwitch]="field.type">
+                    <input *ngSwitchCase="'text'" type="text" [formControlName]="field.name"
+                        class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <input *ngSwitchCase="'number'" type="number" [formControlName]="field.name"
+                        class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <input *ngSwitchCase="'password'" type="password" [formControlName]="field.name"
+                        class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <select *ngSwitchCase="'select'" [formControlName]="field.name"
+                        class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="" disabled>Select {{ field.label }}</option>
+                        <option *ngFor="let option of field.options" [value]="option.id">{{ option.name }}</option>
+                    </select>
+                </ng-container>
+                <p *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched"
+                    class="text-red-500 text-sm mt-1">
+                    {{ field.label }} is required.
+                </p>
+            </div>
+        </ng-container>
+
+        <!-- Description -->
+        <div class="mb-4 md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea formControlName="description" rows="4"
+                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="md:col-span-2">
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+            Submit
+        </button>
+    </div>
+</form>

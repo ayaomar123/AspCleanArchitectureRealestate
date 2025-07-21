@@ -1,0 +1,176 @@
+<div class="flex flex-col lg:flex-row gap-6 p-4">
+
+    <!-- Box تفاصيل العقار -->
+    <div class="w-full lg:w-1/4 bg-white shadow-xl rounded-2xl p-6 border border-gray-100">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-3">Property Details</h2>
+
+        <div class="space-y-4 text-sm text-gray-700 leading-relaxed">
+            <div class="flex justify-between">
+                <span class="font-medium">Ad No.:</span>
+                <span class="text-gray-900">{{ item?.advertiseNo }}</span>
+            </div>
+
+            <div class="flex justify-between">
+                <span class="font-medium">Name:</span>
+                <span class="text-gray-900">{{ item?.name }}</span>
+            </div>
+
+            <div class="flex justify-between">
+                <span class="font-medium">Status:</span>
+                <span class="text-gray-900" [innerHTML]="item?.status | statusLabel"></span>
+            </div>
+
+            <div class="flex justify-between">
+                <span class="font-medium">City:</span>
+                <span class="text-gray-900">{{ item?.city?.name }}</span>
+            </div>
+
+            <div class="flex justify-between">
+                <span class="font-medium">District:</span>
+                <span class="text-gray-900">{{ item?.district?.name }}</span>
+            </div>
+
+            <div class="flex justify-between">
+                <span class="font-medium">Type:</span>
+                <span class="text-gray-900">{{ item?.propertyTypeId }}</span>
+            </div>
+
+            <div class="flex justify-between">
+                <span class="font-medium">Soum (Width):</span>
+                <span class="text-gray-900">{{ item?.soum }} m</span>
+            </div>
+
+            <div class="flex justify-between">
+                <span class="font-medium">Limit (Depth):</span>
+                <span class="text-gray-900">{{ item?.limit }} m</span>
+            </div>
+
+            <div class="flex justify-between">
+                <span class="font-medium">Street Width:</span>
+                <span class="text-gray-900">{{ item?.streetWidth }} m</span>
+            </div>
+
+            <div class="flex justify-between">
+                <span class="font-medium">Area:</span>
+                <span class="text-gray-900">{{ item?.space }} m²</span>
+            </div>
+
+            <div class="flex justify-between">
+                <span class="font-medium">Price per Meter:</span>
+                <span class="text-gray-900">{{ item?.pricePerMeter }} SAR</span>
+            </div>
+
+            <div class="flex justify-between">
+                <span class="font-medium">Created At:</span>
+                <span class="text-gray-900">{{ item?.createdAt | date:'medium' }}</span>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Box الحجوزات والصور -->
+    <div class="flex-1 space-y-6">
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+            <!-- Tabs -->
+            <div class="flex border-b border-gray-200 mb-4">
+                <button class="px-4 py-2 text-sm font-semibold focus:outline-none"
+                    [ngClass]="{ 'border-b-2 border-blue-600 text-blue-600': activeTab === 'images' }"
+                    (click)="activeTab = 'images'">
+                    Images
+                </button>
+                <button class="px-4 py-2 text-sm font-semibold focus:outline-none"
+                    [ngClass]="{ 'border-b-2 border-blue-600 text-blue-600': activeTab === 'bookings' }"
+                    (click)="activeTab = 'bookings'">
+                    Bookings
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div *ngIf="activeTab === 'images'" class="space-y-6">
+                <!-- Description -->
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-1">Description</h3>
+                    <p class="text-gray-600 text-sm">{{ item?.description }}</p>
+                </div>
+
+                <!-- Main Image -->
+                <div *ngIf="item?.image" class="rounded-lg overflow-hidden shadow w-full max-h-80">
+                    <img [src]="getImageUrl(item!)" alt="Main Image" class="w-full h-full object-cover" />
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-semibold text-gray-800">Images</h2>
+
+                        <button (click)="openModal()"
+                            class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg shadow-sm transition">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                        <div *ngFor="let img of item?.images" class="relative group">
+
+                            <!-- Image -->
+                            <img [src]="getItemImageUrl(img!)" class="rounded-lg shadow-sm w-full h-32 object-cover" />
+
+                            <!-- Hover Buttons -->
+                            <div
+                                class="absolute top-1 right-1 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <button (click)="changeStatus(img)"
+                                    class="w-9 h-9 bg-yellow-100 text-yellow-700 hover:bg-yellow-200 rounded-md text-sm font-medium flex items-center justify-center">
+                                    <i class="fas" [ngClass]="img.status == true ? 'fa-eye' : 'fa-eye-slash'"></i>
+                                </button>
+
+                                <button (click)="deleteImage(img.id)"
+                                    class="w-9 h-9 bg-red-100 text-red-700 hover:bg-red-200 rounded-md text-sm font-medium flex items-center justify-center">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div *ngIf="activeTab === 'bookings'" class="space-y-4">
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Bookings</h3>
+
+                <!-- <div *ngIf="item?.bookings.length > 0; else noBookings">
+                    <div *ngFor="let booking of item.bookings" class="p-4 rounded-lg border shadow-sm">
+                        <p><strong>Client:</strong> {{ booking.clientName }}</p>
+                        <p><strong>Date:</strong> {{ booking.date }}</p>
+                        <p><strong>Status:</strong> {{ booking.status }}</p>
+                    </div>
+                </div> -->
+
+                <ng-template #noBookings>
+                    <p class="text-gray-500 text-sm">No bookings found.</p>
+                </ng-template>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<app-modal [visible]="isModalOpen" [title]="'Add Image'" (closed)="closeModal()">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+        <!-- Image Uploader -->
+        <input type="hidden" formControlName="itemId">
+        <div>
+            <app-uploader (imageUploaded)="onImageUploaded($event)"></app-uploader>
+            <p *ngIf="form.get('image')?.invalid && form.get('image')?.touched" class="text-red-500 text-sm mt-1">
+                Image is required.
+            </p>
+        </div>
+
+        <div class="mt-6 flex justify-end space-x-3">
+            <button (click)="closeModal()"
+                class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md">Cancel</button>
+            <button type="submit"
+                class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md">Submit</button>
+        </div>
+    </form>
+</app-modal>

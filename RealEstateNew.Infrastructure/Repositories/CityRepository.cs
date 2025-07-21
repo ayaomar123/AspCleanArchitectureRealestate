@@ -84,7 +84,7 @@ namespace RealEstateNew.Infrastructure.Repositories
             if (file == null || file.Length == 0)
                 throw new ArgumentException("File is required.");
 
-            var uploadsPath = Path.Combine(_webRootPath, "images", "categories");
+            var uploadsPath = Path.Combine(_webRootPath, "images", "cities");
 
             if (!Directory.Exists(uploadsPath))
                 Directory.CreateDirectory(uploadsPath);

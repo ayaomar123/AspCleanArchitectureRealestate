@@ -1,56 +1,66 @@
-import { Component, inject, OnInit, } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { environment } from '../../../../../environments/environment.development';
-import { Category } from '../../../../core/models/category';
-import { CategoryService } from '../../../../core/services/category.service';
-import { FormGroup } from '@angular/forms';
+import { District } from '../../../../core/models/district';
+import { DistrictService } from '../../../../core/services/district.service';
 import { NotificationService } from '../../../../shared/services/notification.service';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from "../../../../shared/components/modal/modal.component";
 import { UploaderComponent } from "../../../../shared/components/uploader/uploader.component";
+import { CityService } from '../../../../core/services/city.service';
+import { City } from '../../../../core/models/city';
 
 @Component({
-  selector: 'app-category-page',
+  selector: 'app-district',
   imports: [ReactiveFormsModule, CommonModule, ModalComponent, UploaderComponent],
-  templateUrl: './category-page.component.html',
-  styleUrl: './category-page.component.css'
+  templateUrl: './district.component.html',
+  styleUrl: './district.component.css'
 })
-export class CategoryPageComponent implements OnInit {
-  private readonly service = inject(CategoryService);
+export class DistrictComponent implements OnInit {
+  private readonly service = inject(DistrictService);
+  private readonly cityService = inject(CityService);
   private readonly toastr = inject(NotificationService)
   private readonly builder = inject(FormBuilder);
-  categories: Category[] = [];
+  districts: District[] = [];
+  cities: City[] = [];
 
   isModalOpen = false;
   form!: FormGroup;
   formMode: 'create' | 'edit' = 'create';
-  editingCategoryId: number | null = null;
+  editingDistrictId: number | null = null;
   notifications: { type: string, message: string }[] = [];
 
 
   ngOnInit(): void {
-    this.loadCategories();
+    this.loadDistricts();
+    this.loadCities();
 
 
     this.form = this.builder.group({
       name: ['', [Validators.required]],
+      cityId: ['', [Validators.required]],
       image: ['', [Validators.required]],
     });
   }
 
-  loadCategories() {
-    this.service.get().subscribe((categories) => {
-      this.categories = categories;
+  loadDistricts() {
+    this.service.get().subscribe((districts) => {
+      this.districts = districts;
+    });
+  }
+  loadCities() {
+    this.cityService.get().subscribe((cities) => {
+      this.cities = cities;
     });
   }
 
-  getImageUrl(path: Category): string {
+  getImageUrl(path: District): string {
     return path.image ? `${environment.assetsUrl}/${path.image}` : '';
   }
 
   openModal() {
     this.formMode = 'create';
-    this.editingCategoryId = null;
+    this.editingDistrictId = null;
     this.form.reset();
     this.isModalOpen = true;
   }
@@ -73,6 +83,7 @@ export class CategoryPageComponent implements OnInit {
     const data = this.form.value;
     const formData = new FormData();
     formData.append('name', data.name);
+    formData.append('cityId', data.cityId);
     if (data.image) {
       formData.append('image', data.image);
     }
@@ -80,19 +91,19 @@ export class CategoryPageComponent implements OnInit {
     if (this.formMode === 'create') {
       this.service.create(formData).subscribe({
         next: () => {
-          this.loadCategories();
+          this.loadDistricts();
           this.closeModal();
-          this.toastr.success('Category created successfully!');
+          this.toastr.success('District created successfully!');
         },
         error: () => this.toastr.error('Data not saved')
       });
-    } else if (this.formMode === 'edit' && this.editingCategoryId) {
-      formData.append('id', this.editingCategoryId.toString());
-      this.service.update(this.editingCategoryId, formData).subscribe({
+    } else if (this.formMode === 'edit' && this.editingDistrictId) {
+      formData.append('id', this.editingDistrictId.toString());
+      this.service.update(this.editingDistrictId, formData).subscribe({
         next: () => {
-          this.loadCategories();
+          this.loadDistricts();
           this.closeModal();
-          this.toastr.success('Category updated successfully!');
+          this.toastr.success('District updated successfully!');
         },
         error: () => this.toastr.error('Data not saved')
       });
@@ -100,30 +111,31 @@ export class CategoryPageComponent implements OnInit {
   }
 
 
-  editCategory(category: Category) {
+  editDistrict(district: District) {
     this.formMode = 'edit';
-    this.editingCategoryId = category.id;
+    this.editingDistrictId = district.id;
     this.isModalOpen = true;
     this.form.patchValue({
-      name: category.name,
+      name: district.name,
+      cityId: district.cityId
     });
   }
 
-  changeStatus(category: Category) {
-    this.service.updateStatus(category.id).subscribe({
+  changeStatus(District: District) {
+    this.service.updateStatus(District.id).subscribe({
       next: () => {
-        this.loadCategories();
-        this.toastr.success('Category status updated successfully!');
+        this.loadDistricts();
+        this.toastr.success('District status updated successfully!');
       },
       error: () => this.toastr.error('Data not saved'),
     });
   }
 
-  deleteCategory(id: number) {
-    if (!confirm('Are you want to delete category?')) return;
+  deleteDistrict(id: number) {
+    if (!confirm('Are you want to delete District?')) return;
     this.service.delete(id).subscribe(() => {
-      this.toastr.success('City deleted successfully!');
-      this.loadCategories();
+      this.toastr.success('District deleted successfully!');
+      this.loadDistricts();
     });
   }
 }

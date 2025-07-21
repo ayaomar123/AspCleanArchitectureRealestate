@@ -4,7 +4,7 @@
 
 <!-- Sidebar -->
 <aside
-    class="fixed lg:static inset-y-0 left-0 z-50 w-20 h-screen bg-white transform transition-transform duration-300 ease-in-out"
+    class="fixed lg:static inset-y-0 left-0 z-50 w-20 h-full bg-white transform transition-transform duration-300 ease-in-out"
     [class.-translate-x-full]="!mobileMenuOpen" [class.lg:translate-x-0]="true">
     <div class="p-4 text-gray-800 text-center text-2xl font-bold ">
         <img src="/favicon.ico" alt="">
@@ -22,7 +22,30 @@
                 <a routerLink="/admin/categories"
                     class="tooltip flex items-center justify-center w-12 h-12 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
                     data-tip="Categories">
+                    <i class="fab fa-squarespace text-lg"></i>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/admin/cities"
+                    class="tooltip flex items-center justify-center w-12 h-12 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                    data-tip="Cities">
                     <i class="fas fa-city text-lg"></i>
+                </a>
+            </li>
+
+            <li>
+                <a routerLink="/admin/districts"
+                    class="tooltip flex items-center justify-center w-12 h-12 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                    data-tip="Districts">
+                    <i class="fas fa-map-marked text-lg"></i>
+                </a>
+            </li>
+
+            <li>
+                <a routerLink="/admin/items"
+                    class="tooltip flex items-center justify-center w-12 h-12 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                    data-tip="Items">
+                    <i class="fab fa-elementor text-lg"></i>
                 </a>
             </li>
 
